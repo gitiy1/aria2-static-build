@@ -14,8 +14,39 @@ $:
         # 声明在容器中支持 docker 命令
         - docker
       runner:
-        cpus: 8
+        cpus: 16
       stages:
         # 环境启动后需要执行的命令
         - name: 安装依赖
           script: echo "环境准备完成"
+  tag_push:
+    # 上传二进制包到 release 附件
+    - docker:
+        build: .ide/Dockerfile
+      stages:
+        - name: 更新日志
+          image: cnbcool/changelog
+          exports:
+            latestChangeLog: LATEST_CHANGE_LOG
+        - name: 创建发布
+          type: git:release
+          options:
+            title: release
+            description: ${LATEST_CHANGE_LOG}
+        - name: 构建 amd64 静态 aria2 包
+          script: 
+            - bash aria2-gnu-linux-build-amd64.sh
+        - name: 构建 arm64 静态 aria2 包(交叉编译)
+          script: 
+            - bash aria2-gnu-linux-cross-build-arm64.sh
+        - name: 构建 armhf 静态 aria2 包(交叉编译)
+          script: 
+            - bash aria2-gnu-linux-cross-build-armhf.sh
+        - name: 构建 i386 静态 aria2 包(交叉编译)
+          script: 
+            - bash aria2-gnu-linux-cross-build-i386.sh
+        - name: release 上传附件
+          image: cnbcool/attachments:latest
+          settings:
+            attachments:
+              - "/root/output/*.tar.gz"
