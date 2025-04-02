@@ -14,7 +14,7 @@ $:
         # 声明在容器中支持 docker 命令
         - docker
       runner:
-        cpus: 16
+        cpus: 12
       stages:
         # 环境启动后需要执行的命令
         - name: 安装依赖
@@ -45,8 +45,12 @@ $:
         - name: 构建 i386 静态 aria2 包(交叉编译)
           script: 
             - bash aria2-gnu-linux-cross-build-i386.sh
+        - name: 移动静态包
+          script:
+            - mkdir -p output
+            - mv /root/output/*.tar.gz output/
         - name: release 上传附件
           image: cnbcool/attachments:latest
           settings:
             attachments:
-              - "/root/output/*.tar.gz"
+              - "output/*.tar.gz"

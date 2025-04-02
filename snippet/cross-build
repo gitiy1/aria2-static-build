@@ -10,7 +10,7 @@
 # Modify: Limit the number of threads's Maximum.
 #
 
-MAX_JOBS=4  # 设置最大线程数
+MAX_JOBS=8  # 设置最大线程数
 CPU_CORES=$(nproc)  # 获取系统核心数
 JOBS=$(( CPU_CORES > MAX_JOBS ? MAX_JOBS : CPU_CORES ))  # 取较小值
 
