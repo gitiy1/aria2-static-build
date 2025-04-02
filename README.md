@@ -30,4 +30,4 @@ bash aria2-gnu-linux-cross-build-i386.sh
 
 ## Licence
 
-[![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://github.com/P3TERX/Aria2-Pro-Core/blob/master/LICENSE)
+[![GPLv3](gplv3.png)](LICENSE)
