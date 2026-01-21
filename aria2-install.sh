@@ -52,9 +52,6 @@ else
     OS_ARCH=$(uname -m)
 fi
 case ${OS_ARCH} in
-*86)
-    FILE_KEYWORD='i386'
-    ;;
 x86_64 | amd64)
     FILE_KEYWORD='amd64'
     ;;
